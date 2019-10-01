@@ -28,9 +28,9 @@
         {
             for (int i = 0; i < iterations; i++)
             {
-                var a = Distribution.Normal(A, ErrorA);
-                var b = Distribution.Normal(B, ErrorB);
-                var c = Distribution.Normal(C, ErrorC);
+                var a = Distribution.Default(A, ErrorA);
+                var b = Distribution.Default(B, ErrorB);
+                var c = Distribution.Default(C, ErrorC);
 
                 var y = a * x * x + b * x + c;
 

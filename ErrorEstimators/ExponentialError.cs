@@ -16,8 +16,8 @@ namespace MonteCarloError
         {
             for (int i = 0; i < iterations; i++)
             {
-                var a = Distribution.Normal(A, ErrorA);
-                var b = Distribution.Normal(B, ErrorB);
+                var a = Distribution.Default(A, ErrorA);
+                var b = Distribution.Default(B, ErrorB);
 
                 var y = a * Math.Exp(b * x);
 
