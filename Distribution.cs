@@ -6,7 +6,12 @@ namespace MonteCarloError
     {
         static readonly Random rand = new Random();
 
-        public static DistributionType Selected { get; set; } = DistributionType.Normal;
+        static DistributionType Selected { get; set; } = DistributionType.Normal;
+
+        public static void SetDefaultDistribution(DistributionType distributionType)
+        {
+            Selected = distributionType;
+        }
 
         public static double Default(double mean, double stdDev)
         {
@@ -30,11 +35,11 @@ namespace MonteCarloError
 
         public static double Constant(double mean, double stdDev)
         {
-            double u = 1 - rand.NextDouble(); //uniform(0,1] random double
-            double randStd = 2 * (0.5 - u); //uniform(-1,1] random double
-            double randConstant = mean + stdDev * randStd; //random constant within mean +/- SD
+            double u = rand.NextDouble(); //uniform[0,1) random double
+            double randStdCons = 2 * (0.5 - u); //uniform(-1,1] random double
+            double randCons = mean + stdDev * randStdCons; //random constant within mean +/- SD
 
-            return randConstant;
+            return randCons;
         }
     }
 

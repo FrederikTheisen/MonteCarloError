@@ -34,7 +34,7 @@ namespace MonteCarloError
         /// </summary>
         /// <param name="iterations">Number of samples used to calculate the error</param>
         /// <param name="x">X value relative to the origin of the fit</param>
-        public void CalculateError(double x, int iterations = 10000)
+        public void CalculateError(double x, int iterations = 10000, bool output = true)
         {
             Results = new List<double>();
 
@@ -42,7 +42,9 @@ namespace MonteCarloError
 
             Run(x, iterations);
 
-            Output();
+            CalcError();
+
+            if (output) Output();
         }
 
         internal virtual void Run(double x, int iterations = 10000)
@@ -52,12 +54,10 @@ namespace MonteCarloError
 
         void Output()
         {
-            CalcError();
-
             PrintError();
         }
 
-        void CalcError()
+        internal virtual void CalcError()
         {
             Mean = 0;
             foreach (var v in Results) Mean += v;

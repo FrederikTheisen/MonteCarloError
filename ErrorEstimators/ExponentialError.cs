@@ -23,6 +23,19 @@ namespace MonteCarloError
 
                 Results.Add(y);
             }
+
+            //assume true mean
+            Mean = A * Math.Exp(B * x);
+        }
+
+        //Mean calculation removed for exponential error method
+        internal override void CalcError()
+        {
+            double SquareDeviation = 0;
+            foreach (var v in Results) SquareDeviation += ((v - Mean) * (v - Mean));
+
+            var Var = SquareDeviation / (Results.Count - 1);
+            SD = (float)Math.Sqrt(Var);
         }
     }
 }
