@@ -10,7 +10,7 @@ namespace MonteCarloError
         {
             Distribution.SetDefaultDistribution(DistributionType.Normal);
 
-            // dG = ax + b
+            // dG = ax + b, x = T relative to fit origin
             var D2AP6_gibbs = new LinearError("D2AP1_gibbs", 0.056639137, 0.179758227, -43.13963653, 0.898700575);
             D2AP6_gibbs.CalculateError(4.959561429, Iterations);
 
