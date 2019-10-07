@@ -14,7 +14,7 @@ namespace MonteCarloError
         internal readonly double B;
         internal readonly double ErrorB;
 
-        double X;
+        internal double X;
         internal double Mean;
         internal double SD;
 
@@ -52,7 +52,7 @@ namespace MonteCarloError
 
         }
 
-        void Output()
+        internal void Output()
         {
             PrintError();
         }
