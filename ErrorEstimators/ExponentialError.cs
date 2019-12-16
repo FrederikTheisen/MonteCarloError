@@ -9,7 +9,7 @@ namespace MonteCarloError
     {
         public ExponentialError(string name, double a, double da, double b, double db) : base(name, a, da, b, db)
         {
-
+            UseAssumedTrueMean = true;
         }
 
         internal override void Run(double x, int iterations = 10000)
@@ -23,21 +23,6 @@ namespace MonteCarloError
 
                 Results.Add(y);
             }
-        }
-
-        //Mean calculation removed for exponential error method
-        internal override void CalcError()
-        {
-            Mean = 0;
-            foreach (var v in Results) Mean += v;
-
-            Mean /= Results.Count;
-
-            var SquareDeviation = 0.0;
-            foreach (var v in Results) SquareDeviation += ((v - X) * (v - X)); //use assumed true mean
-
-            var Var = SquareDeviation / (Results.Count - 1);
-            SD = (float)Math.Sqrt(Var);
         }
     }
 }

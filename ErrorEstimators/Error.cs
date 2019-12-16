@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MonteCarloError
 {
@@ -17,6 +18,8 @@ namespace MonteCarloError
         internal double X;
         internal double Mean;
         internal double SD;
+
+        public bool UseAssumedTrueMean = false;
 
         public Error(string name, double a, double da, double b, double db)
         {
@@ -57,12 +60,26 @@ namespace MonteCarloError
             PrintError();
         }
 
+        internal virtual double GetTrueMean()
+        {
+            var dist = Distribution.Selected;
+            Distribution.SetDefaultDistribution(DistributionType.Zero);
+
+            Run(X, 1);
+
+            Distribution.SetDefaultDistribution(dist);
+
+            return Results.Last();
+        }
+
         internal virtual void CalcError()
         {
             Mean = 0;
             foreach (var v in Results) Mean += v;
 
             Mean /= Results.Count;
+
+            if (UseAssumedTrueMean) { Mean = GetTrueMean(); Results.RemoveAt(Results.Count - 1); }
 
             double SquareDeviation = 0;
             foreach (var v in Results) SquareDeviation += ((v - Mean) * (v - Mean));
@@ -77,6 +94,11 @@ namespace MonteCarloError
             else if (Math.Abs(Mean) < 0.001) Console.WriteLine(Name + " @ " + X.ToString("#####0.00") + "\t" + (Mean * 1000000).ToString("#####0.00") + " +/- " + (SD * 1000000).ToString("#####0.00") + " [x10^6]");
             else if (Math.Abs(Mean) < 1) Console.WriteLine(Name + " @ " + X.ToString("#####0.00") + "\t" + (Mean * 1000).ToString("#####0.00") + " +/- " + (SD * 1000).ToString("#####0.00") + " [x10^3]");
             else Console.WriteLine(Name + " @ " + X.ToString("#####0.00") + "\t" + Mean.ToString("#####0.00") + " +/- " + SD.ToString("#####0.00"));
+        }
+
+        public void GetAllResults()
+        {
+            foreach (var r in Results) Console.WriteLine(r);
         }
     }
 }

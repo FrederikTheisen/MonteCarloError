@@ -6,7 +6,7 @@ namespace MonteCarloError
     {
         static readonly Random rand = new Random();
 
-        static DistributionType Selected { get; set; } = DistributionType.Normal;
+        public static DistributionType Selected { get; private set; } = DistributionType.Normal;
 
         public static void SetDefaultDistribution(DistributionType distributionType)
         {
@@ -46,6 +46,7 @@ namespace MonteCarloError
     enum DistributionType
     {
         Constant,
-        Normal
+        Normal,
+        Zero
     }
 }
